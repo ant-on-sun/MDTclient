@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="pane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.springsun.mdtclient.view.NewUserCreationController">
+   <children>
+      <VBox layoutX="77.0" layoutY="14.0" prefHeight="144.0" prefWidth="360.0" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="65.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <Label fx:id="enterLogin" alignment="CENTER" prefHeight="65.0" prefWidth="366.0" text="Enter Login" textAlignment="CENTER" />
+            <HBox prefHeight="36.0" prefWidth="360.0">
+               <children>
+                  <Label fx:id="login" prefHeight="26.0" prefWidth="99.0" text="Login">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="tfLogin" prefHeight="25.0" prefWidth="154.0">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <Button fx:id="checkLogin" mnemonicParsing="false" onAction="#checkLoginHandler" text="Check Login">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <Label fx:id="isLoginExist" alignment="CENTER" prefHeight="38.0" prefWidth="369.0" text="is Login exist" textAlignment="CENTER" />
+         </children>
+      </VBox>
+      <VBox fx:id="vBox" layoutX="70.0" layoutY="154.0" prefHeight="208.0" prefWidth="370.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="65.0">
+         <children>
+            <Label fx:id="enterPassword" alignment="CENTER" prefHeight="37.0" prefWidth="364.0" text="Enter Password" textAlignment="CENTER" />
+            <HBox prefHeight="35.0" prefWidth="360.0">
+               <children>
+                  <Label fx:id="password" prefHeight="25.0" prefWidth="100.0" text="Password">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <PasswordField fx:id="pfPassword">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </PasswordField>
+               </children>
+            </HBox>
+            <HBox prefHeight="42.0" prefWidth="360.0">
+               <children>
+                  <Label fx:id="confirmPassword" prefHeight="33.0" prefWidth="101.0" text="Confirm Password">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <PasswordField fx:id="pfConfirmPassword">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </PasswordField>
+               </children>
+            </HBox>
+            <Label fx:id="wrongLettersInPassword" alignment="CENTER" prefHeight="44.0" prefWidth="370.0" text="Wrong letters in password" textAlignment="CENTER">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Label>
+            <Pane prefHeight="47.0" prefWidth="360.0">
+               <children>
+                  <Button fx:id="createUser" layoutX="142.0" layoutY="11.0" mnemonicParsing="false" onAction="#createUserHandler" text="Create user" />
+               </children>
+            </Pane>
+         </children>
+      </VBox>
+      <Label fx:id="userCr" alignment="CENTER" layoutX="65.0" layoutY="351.0" prefHeight="43.0" prefWidth="370.0" text="User created" textAlignment="CENTER" AnchorPane.bottomAnchor="3.0" />
+   </children>
+</AnchorPane>

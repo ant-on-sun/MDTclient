@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.lynden.gmapsfx.GoogleMapView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.springsun.mdtclient.view.MainSceneController">
+   <children>
+      <HBox layoutX="96.0" layoutY="161.0" prefHeight="500.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox prefHeight="500.0" prefWidth="221.0">
+               <children>
+                  <Label fx:id="loginLabel" alignment="CENTER" prefHeight="53.0" prefWidth="219.0" text="Login label" textAlignment="CENTER">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="distanceTraveledLabel" alignment="CENTER" prefHeight="30.0" prefWidth="219.0" text="Distance traveled" textAlignment="CENTER" />
+                  <Label fx:id="resultLabel" alignment="CENTER" prefHeight="33.0" prefWidth="216.0" text="Result" textAlignment="CENTER" />
+                  <Pane prefHeight="98.0" prefWidth="216.0">
+                     <children>
+                        <Label fx:id="instructionLabel" alignment="CENTER" layoutY="-4.0" prefHeight="105.0" prefWidth="216.0" text="Instruction" textAlignment="CENTER" />
+                     </children>
+                  </Pane>
+                  <Pane prefHeight="88.0" prefWidth="216.0">
+                     <children>
+                        <Label fx:id="currentLatLabel" layoutY="6.0" prefHeight="30.0" prefWidth="117.0" text="Current Latitude :">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </Label>
+                        <Label fx:id="currentLongLabel" layoutY="44.0" prefHeight="30.0" prefWidth="117.0" text="Current Longitude :">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </Label>
+                        <Label fx:id="latValueLabel" layoutX="125.0" layoutY="5.0" prefHeight="30.0" prefWidth="78.0" text="Lat value" />
+                        <Label fx:id="longValueLabel" layoutX="125.0" layoutY="44.0" prefHeight="30.0" prefWidth="78.0" text="Long value" />
+                     </children>
+                  </Pane>
+                  <Pane prefHeight="68.0" prefWidth="216.0">
+                     <children>
+                        <Button fx:id="calculateButton" layoutX="61.0" layoutY="14.0" mnemonicParsing="false" onAction="#calculateHandler" prefHeight="49.0" prefWidth="94.0" text="Calculate" />
+                     </children>
+                  </Pane>
+                  <Pane prefHeight="71.0" prefWidth="216.0">
+                     <children>
+                        <Button fx:id="resetResultButton" layoutX="61.0" layoutY="21.0" mnemonicParsing="false" onAction="#resetHandler" prefHeight="30.0" prefWidth="94.0" text="Reset result" />
+                     </children>
+                  </Pane>
+                  <Pane prefHeight="68.0" prefWidth="216.0">
+                     <children>
+                        <Button fx:id="exitButton" layoutX="82.0" layoutY="22.0" mnemonicParsing="false" onAction="#exitHandler" prefHeight="25.0" prefWidth="53.0" text="Exit" />
+                     </children>
+                  </Pane>
+               </children>
+            </VBox>
+            <ScrollPane prefHeight="500.0" prefWidth="489.0" HBox.hgrow="ALWAYS">
+               <content>
+                    <AnchorPane fx:id="anchorPane" prefHeight="1000.0" prefWidth="1500.0">
+                          <children>
+                             <GoogleMapView fx:id="googleMapView" layoutX="14.0" layoutY="21.0" prefHeight="1000.0" prefWidth="1500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                          </children>
+                  </AnchorPane>
+               </content></ScrollPane>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
