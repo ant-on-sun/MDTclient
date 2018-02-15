@@ -6,8 +6,8 @@ public class User implements IUser{
     private String userLogin;
     private String userPassword;
     private int distanceTraveled;
-    private float currentLatitude;
-    private float currentLongitude;
+    private float currentLatitude = 1000;
+    private float currentLongitude = 1000;
 
     @Override
     public void setCurrentLatitude(float currentLatitude) {

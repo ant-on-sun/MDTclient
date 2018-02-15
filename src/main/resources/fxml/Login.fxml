@@ -9,8 +9,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootAnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.springsun.mdtclient.view.LoginController">
+<AnchorPane fx:id="rootAnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.springsun.mdtclient.view.LoginController">
    <children>
       <VBox layoutX="120.0" layoutY="50.0" prefHeight="500.0" prefWidth="473.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -49,7 +50,7 @@
             </HBox>
             <Pane prefHeight="33.0" prefWidth="361.0">
                <children>
-                  <Label fx:id="wrong" layoutX="139.0" layoutY="6.0" prefHeight="25.0" prefWidth="209.0" text="Wrong" />
+                  <Label fx:id="wrong" alignment="CENTER" layoutX="1.0" layoutY="-1.0" prefHeight="32.0" prefWidth="473.0" text="Wrong" />
                </children></Pane>
             <Pane prefHeight="45.0" prefWidth="473.0">
                <children>
@@ -62,10 +63,17 @@
                   <Button fx:id="createNewUser" layoutX="186.0" layoutY="13.0" mnemonicParsing="false" onAction="#createUserHandler" text="Create new user" />
                </children>
             </Pane>
-            <Pane prefHeight="81.0" prefWidth="473.0" />
+            <Pane prefHeight="81.0" prefWidth="473.0">
+               <children>
+                  <Label fx:id="offlineLabel" alignment="CENTER" layoutX="4.0" layoutY="5.0" prefHeight="70.0" prefWidth="466.0" text="offline" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                  </Label>
+               </children></Pane>
             <Pane prefHeight="90.0" prefWidth="473.0">
                <children>
-                  <Label fx:id="status" layoutX="233.0" layoutY="54.0" prefHeight="33.0" prefWidth="241.0" text="Status" />
+                  <Label fx:id="status" layoutX="1.0" layoutY="54.0" prefHeight="33.0" prefWidth="473.0" text="Status" />
                </children>
             </Pane>
          </children>

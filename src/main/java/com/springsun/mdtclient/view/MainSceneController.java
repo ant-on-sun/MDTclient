@@ -6,7 +6,8 @@ import com.lynden.gmapsfx.javascript.event.GMapMouseEvent;
 import com.lynden.gmapsfx.javascript.event.UIEventType;
 import com.lynden.gmapsfx.javascript.object.*;
 import com.lynden.gmapsfx.javascript.object.GoogleMap;
-import com.springsun.mdtclient.controller.IClient;
+import com.lynden.gmapsfx.util.MarkerImageFactory;
+import com.springsun.mdtclient.controller.*;
 import com.springsun.mdtclient.controller.client.WaitForServerReply;
 import com.springsun.mdtclient.model.DispetchingData;
 import com.springsun.mdtclient.model.IUser;
@@ -20,6 +21,7 @@ import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
@@ -28,15 +30,21 @@ public class MainSceneController implements Initializable, MapComponentInitializ
         this.dispetchingData = dispetchingData;
         resultLabel.textProperty().bind(this.dispetchingData.resultProperty());
         loginLabel.setText(DispetchingData.getUser().getLogin());
+        if (dispetchingData.connectedProperty().get()) {
+            //sendDataToServer(1000, 1000);
+            sendDataFromFileToServer();
+        }
     }
 
     DispetchingData dispetchingData;
     IUser user;
     IClient client;
     private GoogleMap map;
-    private MarkerOptions markerOptions;// = new MarkerOptions();
-    private Marker marker;// = new Marker(markerOptions);
-    private DecimalFormat formatter = new DecimalFormat("###.00000");
+    private MarkerOptions markerOptions;
+    private Marker marker;
+    private DecimalFormat formatter = new DecimalFormat("###.0000000");
+    private MapOptions mapOptions;
+    private String pathToMarkerImage = getClass().getResource("/media/img/MapMarker.png").toString();
 
     @FXML
     private Label loginLabel;
@@ -74,8 +82,11 @@ public class MainSceneController implements Initializable, MapComponentInitializ
         instructionLabel.setText("Right-click on map to set a marker \n of new position" +
                 "\n (current latitude and longitude)\n Than press 'Calculate' button \n to calculate " +
                 "\n distance traveled");
-        //googleMapView.addMapInializedListener(() -> configureMap());
+        distanceTraveledLabel.setText("Distance traveled, meters :");
+        latValueLabel.setText("");
+        longValueLabel.setText("");
         googleMapView.addMapInializedListener(this);
+        configureMarker();
     }
 
     @Override
@@ -84,11 +95,17 @@ public class MainSceneController implements Initializable, MapComponentInitializ
     }
 
     protected void configureMap() {
-        MapOptions mapOptions = new MapOptions();
+        mapOptions = new MapOptions();
 
         mapOptions.center(new LatLong(48.62939, 44.40183))
                 .mapType(MapTypeIdEnum.ROADMAP)
-                .zoom(7);
+                .overviewMapControl(false)
+                .panControl(false)
+                .rotateControl(false)
+                .scaleControl(false)
+                .streetViewControl(false)
+                .zoomControl(false)
+                .zoom(11);
         map = googleMapView.createMap(mapOptions, false);
         map.addMouseEventHandler(UIEventType.rightclick, (GMapMouseEvent event) -> {
             if (marker != null) map.removeMarker(marker);
@@ -99,10 +116,12 @@ public class MainSceneController implements Initializable, MapComponentInitializ
             user.setCurrentLongitude(longitude);
             latValueLabel.setText(formatter.format(latLong.getLatitude()));
             longValueLabel.setText(formatter.format(latLong.getLongitude()));
+
             markerOptions = new MarkerOptions();
             markerOptions.position(latLong)
                     .animation(Animation.NULL)
                     .title("Current position")
+                    .icon(pathToMarkerImage)
                     .visible(true);
             marker = new Marker(markerOptions);
 //            marker = new Marker(new MarkerOptions()
@@ -116,16 +135,32 @@ public class MainSceneController implements Initializable, MapComponentInitializ
 
     @FXML
     private void calculateHandler(){
-        sendDataToServer(user.getCurrentLatitude(), user.getCurrentLongitude());
-        WaitForServerReply.waitForReply();
+        if (user.getCurrentLatitude() > 999 || user.getCurrentLongitude() > 999) return;
+        if (dispetchingData.connectedProperty().get()){
+            sendDataToServer(user.getCurrentLatitude(), user.getCurrentLongitude());
+            WaitForServerReply.waitForReply();
+            return;
+        }
+        String data = "3:" + user.getCurrentLatitude() + ":" + user.getCurrentLongitude();
+        AddDataToFile.addData(data, user);
+        dispetchingData.resultProperty().set("New checkpoint remembered");
     }
 
     @FXML
-    private void resetHandler(){}
+    private void resetHandler(){
+        String message = "6:" + 0;
+        try {
+            client.writeToChannel(message);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     private void exitHandler(){
-        DispetchingData.getClient().disconnectFromServer();
+        if (DispetchingData.getClient().getChannelFuture() != null) {
+            DispetchingData.getClient().disconnectFromServer();
+        }
         DispetchingData.getExecutorService().shutdown();
         try {
             DispetchingData.getExecutorService().awaitTermination(5, TimeUnit.SECONDS);
@@ -146,5 +181,26 @@ public class MainSceneController implements Initializable, MapComponentInitializ
         }
     }
 
+    //Send data from the file to the server and clear all data in the file
+    private void sendDataFromFileToServer(){
+        List<String> list = FileAsArrayString.getContent(DispetchingData.getUser());
+        list.forEach(s -> {
+            try {
+                DispetchingData.getClient().writeToChannel(s);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            WaitForServerReply.waitForReply();
+        });
+        ClearFileContent.clear(DispetchingData.getUser());
+    }
+
+    private void configureMarker(){
+        pathToMarkerImage = "file:///" + GetOsIndependentPathToFile.getPath(pathToMarkerImage);
+        pathToMarkerImage.replaceAll(" ", "%20");
+        pathToMarkerImage = MarkerImageFactory.createMarkerImage(pathToMarkerImage, "png");
+        pathToMarkerImage = pathToMarkerImage.replace("(", "");
+        pathToMarkerImage = pathToMarkerImage.replace(")", "");
+    }
 
 }

@@ -47,7 +47,9 @@ public class Main extends Application {
 
         primaryStage.setOnCloseRequest(event -> {
             event.consume();
-            DispetchingData.getClient().disconnectFromServer();
+            if (DispetchingData.getClient().getChannelFuture() != null) {
+                DispetchingData.getClient().disconnectFromServer();
+            }
             DispetchingData.getExecutorService().shutdown();
             try {
                 DispetchingData.getExecutorService().awaitTermination(5, TimeUnit.SECONDS);

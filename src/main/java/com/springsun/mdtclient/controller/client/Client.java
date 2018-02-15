@@ -69,8 +69,15 @@ public final class Client implements IClient {
         }
     }
 
+    //Add hash to message, write to channel and flush
     public void writeToChannel(String message) throws InterruptedException {
+        int h = message.hashCode();
+        message = message + ":" + h;
         channelFuture.channel().writeAndFlush(message).sync();
+    }
+
+    public ChannelFuture getChannelFuture(){
+        return channelFuture;
     }
 
 }

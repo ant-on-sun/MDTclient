@@ -9,12 +9,16 @@ public class BusinessHandler extends ChannelInboundHandlerAdapter {
     private final String appPassword = "password";
     private final String approved = "approved";
     private Boolean appPasswordChecked;
+    private boolean hashChecked;
     private String in;
     private Integer key;
     private String firstValue;
     private String secondValue;
+    private String inWithHash;
+    private int hash;
     private Object monitor = WaitForServerReply.getMonitor();
     private DispetchingData dispetchingData;
+    private String message;
 
     public BusinessHandler(DispetchingData dispetchingData) {
         this.dispetchingData = dispetchingData;
@@ -23,12 +27,28 @@ public class BusinessHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
         // Send the first message to server to verify oneself.
-        ctx.writeAndFlush("1:" + appPassword);
+        message = "1:" + appPassword;
+        int h = message.hashCode();
+        message = message + ":" + h;
+        ctx.writeAndFlush(message);
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg){
-        in = (String)msg;
+        inWithHash = (String) msg;
+        hash = GetHashOfMessage.parseHash(inWithHash);
+        in = GetMessageWithoutHash.getIncomingMessage(inWithHash);
+        hashChecked = CheckHash.checkHash(in, hash);
+        if (!hashChecked) {
+            Platform.runLater(() -> {
+                dispetchingData.messageModelProperty().set("Data were changed while transmitting from server");
+            });
+//            String reply = "10:Data were changed while transmitting. Server will do nothing. Try to send data later.";
+//            int h = reply.hashCode();
+//            reply = reply + ":" + h;
+//            ctx.writeAndFlush(reply);
+            return;
+        }
         key = GetKeyFromMessage.parseKey(in);
         firstValue = GetFirstValue.parseFirstValue(in);
         secondValue = GetSecondValue.parseSecondValue(in);
@@ -111,6 +131,37 @@ public class BusinessHandler extends ChannelInboundHandlerAdapter {
                         dispetchingData.userCreatedProperty().set(false);
                         monitor.notify();
                     }
+                }
+                break;
+            case 9: //Couldn't reset result to zero
+                if (appPasswordChecked){
+                    synchronized (monitor){
+                        WaitForServerReply.setServerHasReplied(true);
+                        Platform.runLater(() -> {
+                            dispetchingData.resultProperty().set(firstValue);
+                        });
+                        monitor.notify();
+                    }
+                }
+                break;
+            case 10: //Data were changed while transmitting to server. Server will do nothing. Try to send data later.
+                if (appPasswordChecked){
+                    synchronized (monitor){
+                        WaitForServerReply.setServerHasReplied(true);
+                        Platform.runLater(() -> {
+                            dispetchingData.messageModelProperty().set(firstValue);
+                        });
+                        monitor.notify();
+                    }
+                }
+                break;
+            case 11: //Invalid key protocol
+                synchronized (monitor){
+                    WaitForServerReply.setServerHasReplied(true);
+                    Platform.runLater(() -> {
+                        dispetchingData.messageModelProperty().set(firstValue);
+                    });
+                    monitor.notify();
                 }
                 break;
         }

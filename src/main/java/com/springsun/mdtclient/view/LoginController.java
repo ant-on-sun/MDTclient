@@ -6,7 +6,6 @@ import com.springsun.mdtclient.controller.client.WaitForServerReply;
 import com.springsun.mdtclient.model.DispetchingData;
 import com.springsun.mdtclient.model.IUser;
 import com.springsun.mdtclient.model.user.User;
-import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -22,21 +21,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class LoginController {
-//    public void setDispetchingData(DispetchingData dispetchingData) {
-//        this.dispetchingData = dispetchingData;
-//        this.executorService = dispetchingData.getExecutorService();
-//        this.user = dispetchingData.getUser();
-//        this.client = dispetchingData.getClient();
-//        wrong.textProperty().bind(dispetchingData.messageModelProperty());
-//        status.textProperty().bind(dispetchingData.statusMessageModelProperty());
-//        tfLogin.disableProperty().bind(dispetchingData.connectedProperty().not());
-//        pfPassword.disableProperty().bind(dispetchingData.connectedProperty().not());
-//        createNewUser.disableProperty().bind(dispetchingData.connectedProperty().not());
-//        connect();
-//    }
 
     DispetchingData dispetchingData = new DispetchingData();
     ExecutorService executorService = Executors.newFixedThreadPool(1);
@@ -54,6 +40,8 @@ public class LoginController {
     @FXML
     private Label wrong = new Label();
     @FXML
+    private Label offlineLabel;
+    @FXML
     private Label status = new Label();
     @FXML
     private TextField tfLogin = new TextField();
@@ -70,10 +58,14 @@ public class LoginController {
                 "create new account");
         login.setText("Login");
         pass.setText("Password");
+        offlineLabel.setText("The server is not available at the moment." +
+                "\n But you still can make checkpoints in stand-alone mode. \n They will be sent to server next time " +
+                "\n and will be taken into account while counting the distance traveled.");
         wrong.textProperty().bind(dispetchingData.messageModelProperty());
         status.textProperty().bind(dispetchingData.statusMessageModelProperty());
-        tfLogin.disableProperty().bind(dispetchingData.connectedProperty().not());
-        pfPassword.disableProperty().bind(dispetchingData.connectedProperty().not());
+        //tfLogin.disableProperty().bind(dispetchingData.connectedProperty().not());
+        //pfPassword.disableProperty().bind(dispetchingData.connectedProperty().not());
+        offlineLabel.visibleProperty().bind(dispetchingData.connectedProperty().not());
         createNewUser.disableProperty().bind(dispetchingData.connectedProperty().not());
 
         submit.disableProperty().bind(
@@ -98,6 +90,9 @@ public class LoginController {
 
             @Override
             protected void failed() {
+                dispetchingData.connectedProperty().set(false);
+                dispetchingData.messageModelProperty().set("The server is not responding. " +
+                        "Application will run in stand-alone mode.");
                 Throwable exc = getException();
                 //logger.error( "client connect error", exc );
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -105,7 +100,7 @@ public class LoginController {
                 alert.setHeaderText( exc.getClass().getName() );
                 alert.setContentText( exc.getMessage() );
                 alert.showAndWait();
-                dispetchingData.connectedProperty().set(false);
+
             }
         };
         executorService.submit(task);
@@ -116,9 +111,12 @@ public class LoginController {
     private void submitHandler(ActionEvent actionEvent){
         user.setLogin(tfLogin.getText());
         user.setPassword(pfPassword.getText());
-        checkLoginAndPassword();
-        WaitForServerReply.waitForReply();
-        if (dispetchingData.checkedProperty().get()) {
+        if (dispetchingData.connectedProperty().get()){
+            checkLoginAndPassword();
+            WaitForServerReply.waitForReply();
+        }
+
+        if (dispetchingData.checkedProperty().get() || !dispetchingData.connectedProperty().get()) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/MainScene.fxml"));
                 AnchorPane pane = fxmlLoader.load();

@@ -23,7 +23,10 @@
                      </font>
                   </Label>
                   <Label fx:id="distanceTraveledLabel" alignment="CENTER" prefHeight="30.0" prefWidth="219.0" text="Distance traveled" textAlignment="CENTER" />
-                  <Label fx:id="resultLabel" alignment="CENTER" prefHeight="33.0" prefWidth="216.0" text="Result" textAlignment="CENTER" />
+                  <Label fx:id="resultLabel" alignment="CENTER" prefHeight="33.0" prefWidth="216.0" text="Result" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
                   <Pane prefHeight="98.0" prefWidth="216.0">
                      <children>
                         <Label fx:id="instructionLabel" alignment="CENTER" layoutY="-4.0" prefHeight="105.0" prefWidth="216.0" text="Instruction" textAlignment="CENTER" />
@@ -62,7 +65,7 @@
                   </Pane>
                </children>
             </VBox>
-            <ScrollPane prefHeight="500.0" prefWidth="489.0" HBox.hgrow="ALWAYS">
+            <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="500.0" prefWidth="489.0" HBox.hgrow="ALWAYS">
                <content>
                     <AnchorPane fx:id="anchorPane" prefHeight="1000.0" prefWidth="1500.0">
                           <children>

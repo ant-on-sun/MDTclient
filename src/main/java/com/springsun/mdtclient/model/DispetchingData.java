@@ -128,7 +128,7 @@ public class DispetchingData {
     private BooleanProperty checked = new SimpleBooleanProperty(false);
     private BooleanProperty userCreated = new SimpleBooleanProperty(false);
     private BooleanProperty loginAlredyExist = new SimpleBooleanProperty(true);
-    private StringProperty statusMessageModel = new SimpleStringProperty("Trying to connect...");
+    private StringProperty statusMessageModel = new SimpleStringProperty("Not connected");
     private StringProperty messageModel = new SimpleStringProperty("");
     private StringProperty result = new SimpleStringProperty("");
 
