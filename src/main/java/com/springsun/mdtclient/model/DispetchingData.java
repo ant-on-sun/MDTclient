@@ -120,6 +120,7 @@ public class DispetchingData {
         this.result = result;
     }
 
+
     static private ExecutorService executorService;
     static private IClient client;
     static private IUser user;
@@ -132,25 +133,23 @@ public class DispetchingData {
     private StringProperty messageModel = new SimpleStringProperty("");
     private StringProperty result = new SimpleStringProperty("");
 
-
-
-    public DispetchingData(BooleanProperty connected,
-                           BooleanProperty checked,
-                           BooleanProperty userCreated,
-                           BooleanProperty loginAlredyExist,
-                           StringProperty statusMessageModel,
-                           StringProperty messageModel,
-                           ExecutorService executorService,
-                           IClient client,
-                           IUser user) {
-        this.connected = connected;
-        this.checked = checked;
-        this.userCreated = userCreated;
-        this.loginAlredyExist = loginAlredyExist;
-        this.statusMessageModel = statusMessageModel;
-        this.messageModel = messageModel;
-        this.executorService = executorService;
-        this.client = client;
-        this.user = user;
-    }
+//    public DispetchingData(BooleanProperty connected,
+//                           BooleanProperty checked,
+//                           BooleanProperty userCreated,
+//                           BooleanProperty loginAlredyExist,
+//                           StringProperty statusMessageModel,
+//                           StringProperty messageModel,
+//                           ExecutorService executorService,
+//                           IClient client,
+//                           IUser user) {
+//        this.connected = connected;
+//        this.checked = checked;
+//        this.userCreated = userCreated;
+//        this.loginAlredyExist = loginAlredyExist;
+//        this.statusMessageModel = statusMessageModel;
+//        this.messageModel = messageModel;
+//        this.executorService = executorService;
+//        this.client = client;
+//        this.user = user;
+//    }
 }

@@ -14,10 +14,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class NewUserCreationController {
+    private static Logger log = Logger.getLogger(NewUserCreationController.class.getName());
     private DispetchingData dispetchingData;
     private IClient client;
     private IUser user;
@@ -60,6 +63,7 @@ public class NewUserCreationController {
         userCr.setText("");
         checkLogin.disableProperty().bind(Bindings.isEmpty(tfLogin.textProperty()));
         wrongLettersInPassword.setText("");
+        log.log(Level.FINE, "NewUserCreationController has been initialized.");
     }
 
     @FXML
@@ -90,6 +94,7 @@ public class NewUserCreationController {
                     createUser.disableProperty().set(true);
                     userCr.setText("New user successfully created.\nClose this window and enter your login / password");
                 } else {
+                    log.log(Level.INFO, "Couldn't create new user for some reasons.");
                     userCr.setText("Couldn't create new user.\nSorry, try again later");
                 }
             } else {
@@ -106,7 +111,8 @@ public class NewUserCreationController {
         try {
             client.writeToChannel(message);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.log(Level.WARNING, "InterruptedException in NewUserCreationController in checkLogin() : ", e);
+            //e.printStackTrace();
         }
     }
 
@@ -127,7 +133,9 @@ public class NewUserCreationController {
         try {
             client.writeToChannel(message);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.log(Level.WARNING, "InterruptedException in NewUserCreationController " +
+                    "in tellServerToCreateAccount() : ", e);
+            //e.printStackTrace();
         }
     }
 

@@ -29,7 +29,6 @@ public class Main extends Application {
     }
 
     private static Logger log = Logger.getLogger(Main.class.getName());
-    //private DispetchingData dispetchingData;
 
     @Override
     public void init(){
@@ -54,7 +53,8 @@ public class Main extends Application {
             try {
                 DispetchingData.getExecutorService().awaitTermination(5, TimeUnit.SECONDS);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.log(Level.SEVERE, "Exception caught in Main while closing application: ", e);
+                //e.printStackTrace();
             }
             DispetchingData.getExecutorService().shutdownNow();
             Platform.exit();
@@ -73,7 +73,7 @@ public class Main extends Application {
             launch(args);
         } catch (Exception e) {
             log.log(Level.SEVERE, "Exception caught in Main: ", e);
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 

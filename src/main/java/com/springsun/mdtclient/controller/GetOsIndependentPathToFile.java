@@ -1,5 +1,6 @@
 package com.springsun.mdtclient.controller;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GetOsIndependentPathToFile {
@@ -11,14 +12,14 @@ public class GetOsIndependentPathToFile {
         if (System.getProperty("os.name").contains("indow")){
             i = s.lastIndexOf(":");
             if (i < 1){
-                log.severe("Wrong path to a file:  " + s);
+                log.log(Level.SEVERE, "Wrong path to a file:  " + s);
                 throw new StringIndexOutOfBoundsException("wrong path to a file");
             }
             s = s.substring(i-1);
-            log.fine("GetOsIndependentPathToFile getPath() it's Windows, baby");
+            log.log(Level.FINE, "GetOsIndependentPathToFile getPath() it's Windows, baby");
             return s;
         }
-        log.fine("GetOsIndependentPathToFile getPath() it's not Windows, baby");
+        log.log(Level.FINE,"GetOsIndependentPathToFile getPath() it's not Windows, baby");
         return s;
     }
 }

@@ -5,7 +5,11 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import javafx.application.Platform;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class BusinessHandler extends ChannelInboundHandlerAdapter {
+    private static Logger log = Logger.getLogger(BusinessHandler.class.getName());
     private final String appPassword = "password";
     private final String approved = "approved";
     private Boolean appPasswordChecked;
@@ -43,10 +47,7 @@ public class BusinessHandler extends ChannelInboundHandlerAdapter {
             Platform.runLater(() -> {
                 dispetchingData.messageModelProperty().set("Data were changed while transmitting from server");
             });
-//            String reply = "10:Data were changed while transmitting. Server will do nothing. Try to send data later.";
-//            int h = reply.hashCode();
-//            reply = reply + ":" + h;
-//            ctx.writeAndFlush(reply);
+            log.log(Level.WARNING, "Hash sum of incoming message is not valid. Client will do nothing.");
             return;
         }
         key = GetKeyFromMessage.parseKey(in);
@@ -57,13 +58,18 @@ public class BusinessHandler extends ChannelInboundHandlerAdapter {
         });
         switch (key){
             case 1: //Check if the server is a valid server of our application (expected reply: approved)
-                if (approved.equalsIgnoreCase(firstValue)){
+                if (approved.equals(firstValue)){
                     appPasswordChecked = true;
                     Platform.runLater(() -> {
                         dispetchingData.messageModelProperty().set("");
                     });
+                    log.log(Level.FINE, "Application password approved.");
                 } else {
+                    log.log(Level.WARNING, "Application password is not correct. Channel will be closed.");
                     ctx.close();
+                    Platform.runLater(() -> {
+                        dispetchingData.connectedProperty().set(false);
+                    });
                 }
                 break;
             case 2: //Incorrect password
@@ -72,6 +78,7 @@ public class BusinessHandler extends ChannelInboundHandlerAdapter {
                         WaitForServerReply.setServerHasReplied(true);
                         dispetchingData.checkedProperty().set(false);
                         monitor.notify();
+                        log.log(Level.INFO, "Provided user password is not correct.");
                     }
                 }
                 break;
@@ -81,6 +88,7 @@ public class BusinessHandler extends ChannelInboundHandlerAdapter {
                         WaitForServerReply.setServerHasReplied(true);
                         dispetchingData.checkedProperty().set(true);
                         monitor.notify();
+                        log.log(Level.FINE, "Provided user login and password are correct.");
                     }
                 }
                 break;
@@ -92,6 +100,7 @@ public class BusinessHandler extends ChannelInboundHandlerAdapter {
                             dispetchingData.resultProperty().set(firstValue);
                         });
                         monitor.notify();
+                        log.log(Level.FINE, "Receiving calculated result.");
                     }
                 }
                 break;
@@ -102,6 +111,7 @@ public class BusinessHandler extends ChannelInboundHandlerAdapter {
                         dispetchingData.checkedProperty().set(true);
                         dispetchingData.loginAlredyExistProperty().set(true);
                         monitor.notify();
+                        log.log(Level.FINE, "Provided user login exist.");
                     }
                 }
                 break;
@@ -112,6 +122,7 @@ public class BusinessHandler extends ChannelInboundHandlerAdapter {
                         dispetchingData.checkedProperty().set(false);
                         dispetchingData.loginAlredyExistProperty().set(false);
                         monitor.notify();
+                        log.log(Level.FINE, "Provided user login doesn't exist.");
                     }
                 }
                 break;
@@ -121,6 +132,7 @@ public class BusinessHandler extends ChannelInboundHandlerAdapter {
                         WaitForServerReply.setServerHasReplied(true);
                         dispetchingData.userCreatedProperty().set(true);
                         monitor.notify();
+                        log.log(Level.FINE, "New user created.");
                     }
                 }
                 break;
@@ -130,6 +142,7 @@ public class BusinessHandler extends ChannelInboundHandlerAdapter {
                         WaitForServerReply.setServerHasReplied(true);
                         dispetchingData.userCreatedProperty().set(false);
                         monitor.notify();
+                        log.log(Level.WARNING, "New user was not created.");
                     }
                 }
                 break;
@@ -141,6 +154,7 @@ public class BusinessHandler extends ChannelInboundHandlerAdapter {
                             dispetchingData.resultProperty().set(firstValue);
                         });
                         monitor.notify();
+                        log.log(Level.WARNING, "Couldn't reset result to zero.");
                     }
                 }
                 break;
@@ -152,16 +166,37 @@ public class BusinessHandler extends ChannelInboundHandlerAdapter {
                             dispetchingData.messageModelProperty().set(firstValue);
                         });
                         monitor.notify();
+                        log.log(Level.INFO, "Data were changed while transmitting to server. " +
+                                "Server will do nothing.");
                     }
                 }
                 break;
-            case 11: //Invalid key protocol
-                synchronized (monitor){
-                    WaitForServerReply.setServerHasReplied(true);
-                    Platform.runLater(() -> {
-                        dispetchingData.messageModelProperty().set(firstValue);
-                    });
-                    monitor.notify();
+            case 11: //Invalid key protocol was received on server
+                if (appPasswordChecked){
+                    synchronized (monitor){
+                        WaitForServerReply.setServerHasReplied(true);
+                        Platform.runLater(() -> {
+                            dispetchingData.messageModelProperty().set(firstValue);
+                        });
+                        monitor.notify();
+                        log.log(Level.WARNING, "Server has received invalid key protocol from client.");
+                    }
+                }
+                break;
+            default: //Invalid key protocol was received on client
+                if (appPasswordChecked){
+                    synchronized (monitor){
+                        WaitForServerReply.setServerHasReplied(true);
+                        Platform.runLater(() -> {
+                            dispetchingData.messageModelProperty().set(firstValue);
+                        });
+                        monitor.notify();
+                        message = "7:Invalid key protocol was received from server on client";
+                        int h = message.hashCode();
+                        message = message + ":" + h;
+                        ctx.writeAndFlush(message);
+                        log.log(Level.WARNING, "Invalid key protocol was received from server on client.");
+                    }
                 }
                 break;
         }

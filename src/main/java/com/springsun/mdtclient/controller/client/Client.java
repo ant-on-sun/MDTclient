@@ -13,8 +13,11 @@ import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import javafx.application.Platform;
 
 import javax.net.ssl.SSLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public final class Client implements IClient {
+    private static Logger log = Logger.getLogger(Client.class.getName());
     static final boolean SSL = System.getProperty("ssl") != null;
     static final String HOST = System.getProperty("host", "127.0.0.1");
     static final int PORT = Integer.parseInt(System.getProperty("port", "8007"));
@@ -65,7 +68,8 @@ public final class Client implements IClient {
             group.shutdownGracefully().sync();
             channelFuture.channel().closeFuture().sync(); //close port
         } catch (InterruptedException e){
-            e.printStackTrace();
+            log.log(Level.WARNING, "Exception in disconnectFromServer(): ", e);
+            //e.printStackTrace();
         }
     }
 

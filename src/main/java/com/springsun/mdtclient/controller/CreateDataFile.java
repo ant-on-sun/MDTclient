@@ -33,7 +33,7 @@ public class CreateDataFile {
             Files.write(Paths.get(pathAsString), lines, StandardCharsets.UTF_8, StandardOpenOption.CREATE,
                     StandardOpenOption.APPEND);
         } catch (IOException e) {
-            log.log(Level.SEVERE, "Exception while creating file TotalScore.txt in path: " + pathAsString, e);
+            log.log(Level.SEVERE, "Exception while creating file DataFile.txt in path: " + pathAsString, e);
         }
         if (new File(pathAsString).exists()) return true;
         return false;

@@ -21,8 +21,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class LoginController {
+    private static Logger log = Logger.getLogger(LoginController.class.getName());
 
     DispetchingData dispetchingData = new DispetchingData();
     ExecutorService executorService = Executors.newFixedThreadPool(1);
@@ -58,14 +61,12 @@ public class LoginController {
                 "create new account");
         login.setText("Login");
         pass.setText("Password");
-        offlineLabel.setText("The server is not available at the moment." +
-                "\n But you still can make checkpoints in stand-alone mode. \n They will be sent to server next time " +
-                "\n and will be taken into account while counting the distance traveled.");
+        offlineLabel.setText("");
         wrong.textProperty().bind(dispetchingData.messageModelProperty());
         status.textProperty().bind(dispetchingData.statusMessageModelProperty());
         //tfLogin.disableProperty().bind(dispetchingData.connectedProperty().not());
         //pfPassword.disableProperty().bind(dispetchingData.connectedProperty().not());
-        offlineLabel.visibleProperty().bind(dispetchingData.connectedProperty().not());
+        //offlineLabel.visibleProperty().bind(dispetchingData.connectedProperty().not());
         createNewUser.disableProperty().bind(dispetchingData.connectedProperty().not());
 
         submit.disableProperty().bind(
@@ -76,6 +77,7 @@ public class LoginController {
         DispetchingData.setExecutorService(executorService);
         DispetchingData.setUser(user);
         DispetchingData.setClient(client);
+        log.log(Level.FINE, "LoginController has been initialized.");
     }
 
     public void connect(){
@@ -94,7 +96,11 @@ public class LoginController {
                 dispetchingData.messageModelProperty().set("The server is not responding. " +
                         "Application will run in stand-alone mode.");
                 Throwable exc = getException();
-                //logger.error( "client connect error", exc );
+                log.log(Level.WARNING, "Failed to connect to server. Application will run in stand-alone mode.");
+                offlineLabel.setText("The server is not available at the moment." +
+                        "\n But you still can make checkpoints in stand-alone mode. " +
+                        "\n They will be sent to server next time " +
+                        "\n and will be taken into account while counting the distance traveled.");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Client");
                 alert.setHeaderText( exc.getClass().getName() );
@@ -124,7 +130,8 @@ public class LoginController {
                 mainSceneController.setDispetchingData(dispetchingData);
                 rootAnchorPane.getChildren().setAll(pane);
             } catch (IOException e) {
-                e.printStackTrace();
+                log.log(Level.WARNING, "Failed to load MainScene : ", e);
+                //e.printStackTrace();
             }
         }
     }
@@ -149,7 +156,8 @@ public class LoginController {
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.WARNING, "Failed to load NewUserCreation : ", e);
+            //e.printStackTrace();
         }
     }
 
@@ -158,7 +166,8 @@ public class LoginController {
         try {
             client.writeToChannel(message);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.log(Level.WARNING, "InterruptedException in LoginController in checkLoginAndPassword() : ", e);
+            //e.printStackTrace();
         }
     }
 

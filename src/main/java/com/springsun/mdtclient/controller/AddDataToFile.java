@@ -18,16 +18,10 @@ public class AddDataToFile {
     public static boolean addData(String data, IUser user){
         String pathAsString = null;
         Path path = null;
-        //File file = null;
         try {
             if (CreateDataFile.createFile(user)){
                 pathAsString = CreateDataFile.getPathAsString();
             } else throw new Exception("File is not exist and couldn't be made for some reason");
-
-//            file = new File(pathAsString);
-//            if (!file.exists()) {
-//                CreateDataFile.createFile(user);
-//            }
             path = Paths.get(pathAsString);
         } catch (Exception e) {
             log.log(Level.SEVERE, "Exception caught in AddDataToFile while trying to get path from url: ", e);
@@ -39,7 +33,7 @@ public class AddDataToFile {
             Files.write(path, list, StandardOpenOption.APPEND);
         } catch (IOException e) {
             log.log(Level.SEVERE, "Exception caught in AddDataToFile while trying to add line to file: ", e);
-            e.printStackTrace();
+            //e.printStackTrace();
             return false;
         }
         return true;

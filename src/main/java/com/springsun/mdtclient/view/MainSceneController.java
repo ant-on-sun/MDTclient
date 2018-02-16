@@ -24,14 +24,17 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MainSceneController implements Initializable, MapComponentInitializedListener {
+    private static Logger log = Logger.getLogger(MainSceneController.class.getName());
     public void setDispetchingData(DispetchingData dispetchingData) {
         this.dispetchingData = dispetchingData;
         resultLabel.textProperty().bind(this.dispetchingData.resultProperty());
         loginLabel.setText(DispetchingData.getUser().getLogin());
         if (dispetchingData.connectedProperty().get()) {
-            //sendDataToServer(1000, 1000);
+            sendDataToServer(1000, 1000);
             sendDataFromFileToServer();
         }
     }
@@ -87,11 +90,13 @@ public class MainSceneController implements Initializable, MapComponentInitializ
         longValueLabel.setText("");
         googleMapView.addMapInializedListener(this);
         configureMarker();
+        log.log(Level.FINE, "MainSceneController has been initialized.");
     }
 
     @Override
     public void mapInitialized() {
         configureMap();
+        log.log(Level.FINE, "Google map has been initialized.");
     }
 
     protected void configureMap() {
@@ -107,6 +112,7 @@ public class MainSceneController implements Initializable, MapComponentInitializ
                 .zoomControl(false)
                 .zoom(11);
         map = googleMapView.createMap(mapOptions, false);
+
         map.addMouseEventHandler(UIEventType.rightclick, (GMapMouseEvent event) -> {
             if (marker != null) map.removeMarker(marker);
             LatLong latLong = event.getLatLong();
@@ -116,7 +122,6 @@ public class MainSceneController implements Initializable, MapComponentInitializ
             user.setCurrentLongitude(longitude);
             latValueLabel.setText(formatter.format(latLong.getLatitude()));
             longValueLabel.setText(formatter.format(latLong.getLongitude()));
-
             markerOptions = new MarkerOptions();
             markerOptions.position(latLong)
                     .animation(Animation.NULL)
@@ -124,10 +129,6 @@ public class MainSceneController implements Initializable, MapComponentInitializ
                     .icon(pathToMarkerImage)
                     .visible(true);
             marker = new Marker(markerOptions);
-//            marker = new Marker(new MarkerOptions()
-//                    .position(latLong)
-//                    .title("Current marker")
-//                    .icon("/media/img/MapMarker.png"));
             map.addMarker(marker);
         });
 
@@ -139,11 +140,13 @@ public class MainSceneController implements Initializable, MapComponentInitializ
         if (dispetchingData.connectedProperty().get()){
             sendDataToServer(user.getCurrentLatitude(), user.getCurrentLongitude());
             WaitForServerReply.waitForReply();
+            log.log(Level.FINE, "New result has been calculated.");
             return;
         }
         String data = "3:" + user.getCurrentLatitude() + ":" + user.getCurrentLongitude();
         AddDataToFile.addData(data, user);
         dispetchingData.resultProperty().set("New checkpoint remembered");
+        log.log(Level.FINE, "New checkpoint remembered in stand-alone mode.");
     }
 
     @FXML
@@ -152,7 +155,8 @@ public class MainSceneController implements Initializable, MapComponentInitializ
         try {
             client.writeToChannel(message);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.log(Level.WARNING, "InterruptedException in MainSceneController in resetHandler() : ", e);
+            //e.printStackTrace();
         }
     }
 
@@ -165,7 +169,8 @@ public class MainSceneController implements Initializable, MapComponentInitializ
         try {
             DispetchingData.getExecutorService().awaitTermination(5, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.log(Level.WARNING, "InterruptedException in MainSceneController in exitHandler() : ", e);
+            //e.printStackTrace();
         }
         DispetchingData.getExecutorService().shutdownNow();
         Platform.exit();
@@ -177,7 +182,8 @@ public class MainSceneController implements Initializable, MapComponentInitializ
         try {
             client.writeToChannel(message);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.log(Level.WARNING, "InterruptedException in MainSceneController in sendDataToServer() : ", e);
+            //e.printStackTrace();
         }
     }
 
@@ -188,7 +194,9 @@ public class MainSceneController implements Initializable, MapComponentInitializ
             try {
                 DispetchingData.getClient().writeToChannel(s);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.log(Level.WARNING, "InterruptedException in MainSceneController " +
+                        "in sendDataFromFileToServer() : ", e);
+                //e.printStackTrace();
             }
             WaitForServerReply.waitForReply();
         });

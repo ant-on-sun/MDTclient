@@ -4,7 +4,6 @@ import com.springsun.mdtclient.model.IUser;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -21,15 +20,10 @@ public class FileAsArrayString {
         List<String> stringList = new ArrayList<>();
         String pathAsString = null;
         Path path = null;
-        //File file = null;
         try {
             if (CreateDataFile.createFile(user)){
                 pathAsString = CreateDataFile.getPathAsString();
             } else throw new Exception("File is not exist and couldn't be made for some reason");
-//            file = new File(pathAsString);
-//            if (!file.exists()) {
-//                return null;
-//            }
             path = Paths.get(pathAsString);
         } catch (Exception e) {
             log.log(Level.SEVERE, "Exception caught in FileAsArrayString getContent()" +

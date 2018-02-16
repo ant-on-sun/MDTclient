@@ -7,9 +7,9 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.ssl.SslContext;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.StringProperty;
 
 import static com.springsun.mdtclient.controller.client.Client.HOST;
 import static com.springsun.mdtclient.controller.client.Client.PORT;
@@ -28,7 +28,7 @@ public class ClientSocketInitializer extends ChannelInitializer<SocketChannel> {
         if (sslContext != null){
             pipeline.addLast(sslContext.newHandler(socketChannel.alloc(), HOST, PORT));
         }
-        //pipeline.addLast(new LoggingHandler(LogLevel.INFO));
+        //pipeline.addLast(new LoggingHandler(LogLevel.WARN));
         pipeline.addLast(
                 new ObjectEncoder(),
                 new ObjectDecoder(ClassResolvers.cacheDisabled(null)),

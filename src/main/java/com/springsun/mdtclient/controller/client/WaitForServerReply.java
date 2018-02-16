@@ -1,6 +1,10 @@
 package com.springsun.mdtclient.controller.client;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class WaitForServerReply {
+    private static Logger log = Logger.getLogger(WaitForServerReply.class.getName());
     private static final Object monitor = new Object();
     private static boolean serverHasReplied = false;
 
@@ -18,7 +22,8 @@ public class WaitForServerReply {
                 try {
                     monitor.wait();
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    log.log(Level.INFO, "InterruptedException in waitForReply(): ", e);
+                    //e.printStackTrace();
                 }
             }
         }
