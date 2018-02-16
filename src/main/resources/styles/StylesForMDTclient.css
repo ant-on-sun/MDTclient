@@ -1,0 +1,90 @@
+.background-one {
+    -fx-background-image: url(/media/img/back-1.jpg);
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
+
+.background-two {
+    -fx-background-image: url(/media/img/back-2.jpg);
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
+
+.background-three {
+    -fx-background-image: url(/media/img/back-3.jpg);
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
+
+.button-submit {
+    -fx-font-family: sans-serif;
+    -fx-font-size: 9pt;
+    -fx-text-fill: black;
+    -fx-background-color: linear-gradient(DeepSkyBlue, DodgerBlue);
+    -fx-background-radius: 4;
+}
+
+.button-createuser {
+    -fx-font-family: sans-serif;
+    -fx-font-size: 9pt;
+    -fx-text-fill: black;
+    -fx-background-color: linear-gradient(DodgerBlue, DarkCyan);
+    -fx-background-radius: 4;
+}
+
+.button-checklogin {
+    -fx-font-family: sans-serif;
+    -fx-font-size: 9pt;
+    -fx-text-fill: black;
+    -fx-background-color: linear-gradient(DeepSkyBlue, DodgerBlue);
+    -fx-background-radius: 4;
+}
+
+.button-createuser-tellserver {
+    -fx-font-family: sans-serif;
+    -fx-font-size: 9pt;
+    -fx-text-fill: black;
+    -fx-background-color: linear-gradient(DodgerBlue, DarkCyan);
+    -fx-background-radius: 4;
+}
+
+.button-calculate {
+    -fx-font-family: sans-serif;
+    -fx-font-size: 9pt;
+    -fx-text-fill: black;
+    -fx-background-color: linear-gradient(White, DeepSkyBlue);
+    -fx-background-radius: 4;
+}
+
+.button-resetresult {
+    -fx-font-family: sans-serif;
+    -fx-font-size: 9pt;
+    -fx-text-fill: black;
+    -fx-background-color: linear-gradient(DeepSkyBlue, DodgerBlue);
+    -fx-background-radius: 4;
+}
+
+.button-exit {
+    -fx-font-family: sans-serif;
+    -fx-font-size: 9pt;
+    -fx-text-fill: black;
+    -fx-background-color: linear-gradient(DodgerBlue, DarkCyan);
+    -fx-background-radius: 4;
+}
+
+.lable-text-warning {
+    -fx-font-family: sans-serif;
+    -fx-font-size: 9pt;
+    -fx-text-fill: red;
+    -fx-font-weight: bold;
+}
+
+.lable-text-info {
+    -fx-font-family: sans-serif;
+    -fx-font-size: 9pt;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}

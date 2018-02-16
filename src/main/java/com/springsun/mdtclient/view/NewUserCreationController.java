@@ -46,7 +46,7 @@ public class NewUserCreationController {
     @FXML
     private Label userCr;
     @FXML
-    private TextField tfLogin;
+    private TextField tfLogin = new TextField();
     @FXML
     private PasswordField pfPassword;
     @FXML
@@ -63,6 +63,9 @@ public class NewUserCreationController {
         userCr.setText("");
         checkLogin.disableProperty().bind(Bindings.isEmpty(tfLogin.textProperty()));
         wrongLettersInPassword.setText("");
+        tfLogin.setOnMouseClicked(actionEvent -> {
+            dispetchingData.loginAlredyExistProperty().set(true);
+        });
         log.log(Level.FINE, "NewUserCreationController has been initialized.");
     }
 

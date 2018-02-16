@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.springsun.mdtclient.view.MainSceneController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" styleClass="background-three" stylesheets="@../styles/StylesForMDTclient.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.springsun.mdtclient.view.MainSceneController">
    <children>
       <HBox layoutX="96.0" layoutY="161.0" prefHeight="500.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -19,7 +19,7 @@
                <children>
                   <Label fx:id="loginLabel" alignment="CENTER" prefHeight="53.0" prefWidth="219.0" text="Login label" textAlignment="CENTER">
                      <font>
-                        <Font size="14.0" />
+                        <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
                   <Label fx:id="distanceTraveledLabel" alignment="CENTER" prefHeight="30.0" prefWidth="219.0" text="Distance traveled" textAlignment="CENTER" />
@@ -50,17 +50,17 @@
                   </Pane>
                   <Pane prefHeight="68.0" prefWidth="216.0">
                      <children>
-                        <Button fx:id="calculateButton" layoutX="61.0" layoutY="14.0" mnemonicParsing="false" onAction="#calculateHandler" prefHeight="49.0" prefWidth="94.0" text="Calculate" />
+                        <Button fx:id="calculateButton" layoutX="61.0" layoutY="14.0" mnemonicParsing="false" onAction="#calculateHandler" prefHeight="49.0" prefWidth="94.0" styleClass="button-calculate" stylesheets="@../styles/StylesForMDTclient.css" text="Calculate" />
                      </children>
                   </Pane>
                   <Pane prefHeight="71.0" prefWidth="216.0">
                      <children>
-                        <Button fx:id="resetResultButton" layoutX="61.0" layoutY="21.0" mnemonicParsing="false" onAction="#resetHandler" prefHeight="30.0" prefWidth="94.0" text="Reset result" />
+                        <Button fx:id="resetResultButton" layoutX="61.0" layoutY="21.0" mnemonicParsing="false" onAction="#resetHandler" prefHeight="30.0" prefWidth="94.0" styleClass="button-resetresult" stylesheets="@../styles/StylesForMDTclient.css" text="Reset result" />
                      </children>
                   </Pane>
                   <Pane prefHeight="68.0" prefWidth="216.0">
                      <children>
-                        <Button fx:id="exitButton" layoutX="82.0" layoutY="22.0" mnemonicParsing="false" onAction="#exitHandler" prefHeight="25.0" prefWidth="53.0" text="Exit" />
+                        <Button fx:id="exitButton" layoutX="82.0" layoutY="22.0" mnemonicParsing="false" onAction="#exitHandler" prefHeight="25.0" prefWidth="53.0" styleClass="button-exit" stylesheets="@../styles/StylesForMDTclient.css" text="Exit" />
                      </children>
                   </Pane>
                </children>

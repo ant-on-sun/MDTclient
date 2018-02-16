@@ -11,13 +11,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootAnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.springsun.mdtclient.view.LoginController">
+<AnchorPane fx:id="rootAnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" styleClass="background-one" stylesheets="@../styles/StylesForMDTclient.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.springsun.mdtclient.view.LoginController">
    <children>
       <VBox layoutX="120.0" layoutY="50.0" prefHeight="500.0" prefWidth="473.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Pane>
                <children>
-                  <Label fx:id="text" alignment="CENTER" layoutX="24.0" layoutY="25.0" prefHeight="88.0" prefWidth="422.0" text="Text" textAlignment="CENTER" />
+                  <Label fx:id="text" alignment="CENTER" layoutX="24.0" layoutY="25.0" prefHeight="88.0" prefWidth="422.0" styleClass="lable-text-info" stylesheets="@../styles/StylesForMDTclient.css" text="Text" textAlignment="CENTER" />
                </children>
             </Pane>
             <HBox prefHeight="29.0" prefWidth="361.0">
@@ -26,6 +26,9 @@
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
                   </Label>
                   <TextField fx:id="tfLogin" prefHeight="25.0" prefWidth="248.0">
                      <HBox.margin>
@@ -40,6 +43,9 @@
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
                   </Label>
                   <PasswordField fx:id="pfPassword" prefHeight="25.0" prefWidth="249.0">
                      <HBox.margin>
@@ -50,17 +56,17 @@
             </HBox>
             <Pane prefHeight="33.0" prefWidth="361.0">
                <children>
-                  <Label fx:id="wrong" alignment="CENTER" layoutX="1.0" layoutY="-1.0" prefHeight="32.0" prefWidth="473.0" text="Wrong" />
+                  <Label fx:id="wrong" alignment="CENTER" layoutX="1.0" layoutY="-1.0" prefHeight="32.0" prefWidth="473.0" styleClass="lable-text-warning" stylesheets="@../styles/StylesForMDTclient.css" text="Wrong" />
                </children></Pane>
             <Pane prefHeight="45.0" prefWidth="473.0">
                <children>
-                  <Button fx:id="submit" defaultButton="true" layoutX="210.0" layoutY="8.0" mnemonicParsing="false" onAction="#submitHandler" prefHeight="35.0" prefWidth="54.0" text="Submit" />
+                  <Button fx:id="submit" defaultButton="true" layoutX="210.0" layoutY="8.0" mnemonicParsing="false" onAction="#submitHandler" prefHeight="35.0" prefWidth="54.0" styleClass="button-submit" stylesheets="@../styles/StylesForMDTclient.css" text="Submit" />
                </children>
             </Pane>
             <Pane prefHeight="26.0" prefWidth="473.0" />
             <Pane prefHeight="50.0" prefWidth="473.0">
                <children>
-                  <Button fx:id="createNewUser" layoutX="186.0" layoutY="13.0" mnemonicParsing="false" onAction="#createUserHandler" text="Create new user" />
+                  <Button fx:id="createNewUser" layoutX="186.0" layoutY="13.0" mnemonicParsing="false" onAction="#createUserHandler" styleClass="button-createuser" stylesheets="@../styles/StylesForMDTclient.css" text="Create new user" />
                </children>
             </Pane>
             <Pane prefHeight="81.0" prefWidth="473.0">
