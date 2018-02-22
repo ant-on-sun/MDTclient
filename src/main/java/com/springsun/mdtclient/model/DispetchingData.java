@@ -120,7 +120,6 @@ public class DispetchingData {
         this.result = result;
     }
 
-
     static private ExecutorService executorService;
     static private IClient client;
     static private IUser user;

@@ -16,14 +16,15 @@ import javax.net.ssl.SSLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public final class Client implements IClient {
+public class Client implements IClient {
     private static Logger log = Logger.getLogger(Client.class.getName());
     static final boolean SSL = System.getProperty("ssl") != null;
     static final String HOST = System.getProperty("host", "127.0.0.1");
     static final int PORT = Integer.parseInt(System.getProperty("port", "8007"));
     private EventLoopGroup group;
     private ChannelFuture channelFuture;
-    DispetchingData dispetchingData;
+    private DispetchingData dispetchingData;
+    private String message;
 
     public Client() {
     }
@@ -74,14 +75,28 @@ public final class Client implements IClient {
     }
 
     //Add hash to message, write to channel and flush
-    public void writeToChannel(String message) throws InterruptedException {
+    public void writeToChannel(String msg) throws InterruptedException {
+        message = msg;
         int h = message.hashCode();
         message = message + ":" + h;
         channelFuture.channel().writeAndFlush(message).sync();
     }
 
+    //Write to channel one more time last outgoing message
+    public void writeToChannel() throws InterruptedException {
+        if (message != null) channelFuture.channel().writeAndFlush(message).sync();
+    }
+
     public ChannelFuture getChannelFuture(){
         return channelFuture;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
 }
