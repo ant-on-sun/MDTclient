@@ -15,6 +15,7 @@ import java.io.File;
 
 public class AddDataToFile {
     private static Logger log = Logger.getLogger(AddDataToFile.class.getName());
+
     public static boolean addData(String data, IUser user){
         String pathAsString = null;
         Path path = null;

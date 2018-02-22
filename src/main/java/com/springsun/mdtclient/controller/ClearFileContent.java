@@ -11,7 +11,16 @@ public class ClearFileContent {
     private static Logger log = Logger.getLogger(ClearFileContent.class.getName());
 
     public static boolean clear(IUser user){
-        String pathAsString = CreateDataFile.getPathAsString();
+        String pathAsString = "";
+        try {
+            if (CreateDataFile.createFile(user)){
+                pathAsString = CreateDataFile.getPathAsString();
+            } else throw new Exception("File is not exist and couldn't be made for some reason");
+        } catch (Exception e){
+            log.log(Level.SEVERE, "Exception caught in ClearFileContent while trying to get path from url: ", e);
+            return false;
+        }
+
         PrintWriter printWriter;
         try {
             printWriter = new PrintWriter(pathAsString);
