@@ -1,6 +1,8 @@
 package com.springsun.mdtclient.view;
 
 import com.springsun.mdtclient.controller.IClient;
+import com.springsun.mdtclient.controller.InetCheck;
+import com.springsun.mdtclient.controller.ShutdownApp;
 import com.springsun.mdtclient.controller.client.Client;
 import com.springsun.mdtclient.controller.client.WaitForServerReply;
 import com.springsun.mdtclient.model.DispetchingData;
@@ -93,6 +95,15 @@ public class LoginController {
             @Override
             protected void failed() {
                 dispetchingData.connectedProperty().set(false);
+                if (!InetCheck.internetConnectionIsAvailable()){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Client");
+                    alert.setHeaderText("Internet is not available");
+                    alert.setContentText("This application requires an Internet connection. " +
+                            "Internet is not available, so the application will be closed");
+                    alert.showAndWait();
+                    ShutdownApp.shutdown();
+                }
                 dispetchingData.messageModelProperty().set("The server is not responding. " +
                         "Application will run in stand-alone mode.");
                 Throwable exc = getException();
@@ -170,6 +181,5 @@ public class LoginController {
             //e.printStackTrace();
         }
     }
-
 
 }

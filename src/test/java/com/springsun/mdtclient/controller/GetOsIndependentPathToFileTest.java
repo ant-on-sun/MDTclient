@@ -18,30 +18,35 @@ public class GetOsIndependentPathToFileTest {
         s = "";
     }
 
+    //in Windows
     @Test
     public void getPathTest1(){
         s = "file:/C:\\Users";
         assertEquals("C:\\Users", GetOsIndependentPathToFile.getPath(s));
     }
 
+    //in Windows
     @Test
     public void getPathTest2(){
         s = "file:/E:\\Users";
         assertEquals("E:\\Users", GetOsIndependentPathToFile.getPath(s));
     }
 
+    //in Windows
     @Test (expected = StringIndexOutOfBoundsException.class)
     public void getPathTest3(){
         s = ":\\Users";
         GetOsIndependentPathToFile.getPath(s);
     }
 
+    //in Unix
     @Test (expected = StringIndexOutOfBoundsException.class)
     public void getPathTest4(){
         s = "Users/someDirectory";
         GetOsIndependentPathToFile.getPath(s);
     }
 
+    //in Windows
     @Test
     public void getPathTest5(){
         s = "file:/E:\\Users\\some Directory";

@@ -19,6 +19,10 @@ public class GetOsIndependentPathToFile {
             log.log(Level.FINE, "GetOsIndependentPathToFile getPath() it's Windows, baby");
             return s;
         }
+        if (!s.startsWith("/")){
+            log.log(Level.SEVERE, "Wrong path to a file:  " + s);
+            throw new StringIndexOutOfBoundsException("wrong path to a file");
+        }
         log.log(Level.FINE,"GetOsIndependentPathToFile getPath() it's not Windows, baby");
         return s;
     }

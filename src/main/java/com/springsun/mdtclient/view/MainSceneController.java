@@ -162,19 +162,7 @@ public class MainSceneController implements Initializable, MapComponentInitializ
 
     @FXML
     private void exitHandler(){
-        if (DispetchingData.getClient().getChannelFuture() != null) {
-            DispetchingData.getClient().disconnectFromServer();
-        }
-        DispetchingData.getExecutorService().shutdown();
-        try {
-            DispetchingData.getExecutorService().awaitTermination(5, TimeUnit.SECONDS);
-        } catch (InterruptedException e) {
-            log.log(Level.WARNING, "InterruptedException in MainSceneController in exitHandler() : ", e);
-            //e.printStackTrace();
-        }
-        DispetchingData.getExecutorService().shutdownNow();
-        Platform.exit();
-        System.exit(0);
+        ShutdownApp.shutdown();
     }
 
     private void sendDataToServer(float latitude, float longitude){
