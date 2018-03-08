@@ -115,9 +115,7 @@ public class BusinessHandler extends ChannelInboundHandlerAdapter {
                 if (appPasswordChecked){
                     synchronized (monitor){
                         WaitForServerReply.setServerHasReplied(true);
-                        Platform.runLater(() -> {
-                            dispetchingData.checkedProperty().set(true);
-                        });
+                        dispetchingData.checkedProperty().set(true);
                         monitor.notify();
                         log.log(Level.FINE, "Provided user login and password are correct.");
                     }

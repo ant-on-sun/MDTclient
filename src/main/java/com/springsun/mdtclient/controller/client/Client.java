@@ -19,8 +19,8 @@ import java.util.logging.Logger;
 public class Client implements IClient {
     private static Logger log = Logger.getLogger(Client.class.getName());
     static final boolean SSL = System.getProperty("ssl") != null;
-    static final String HOST = System.getProperty("host", "127.0.0.1");
-    static final int PORT = Integer.parseInt(System.getProperty("port", "8007"));
+    static String host = DispetchingData.getServerHost();//System.getProperty("host", "127.0.0.1");
+    static int port = DispetchingData.getServerPort();//Integer.parseInt(System.getProperty("port", "8007"));
     private EventLoopGroup group;
     private ChannelFuture channelFuture;
     private DispetchingData dispetchingData;
@@ -50,10 +50,10 @@ public class Client implements IClient {
             .handler(new ClientSocketInitializer(sslCtx, dispetchingData));
 
             // Start the connection attempt.
-            channelFuture = b.connect(HOST, PORT).sync();
+            channelFuture = b.connect(host, port).sync();
             Platform.runLater(() -> {
                 dispetchingData.connectedProperty().set(true);
-                dispetchingData.statusMessageModelProperty().set("Connected to server " + HOST + ":" + PORT);
+                dispetchingData.statusMessageModelProperty().set("Connected to server " + host + ":" + port);
             });
 
             // Wait until the client socket is closed
@@ -97,6 +97,14 @@ public class Client implements IClient {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public static void setHost(String host) {
+        Client.host = host;
+    }
+
+    public static void setPort(int port) {
+        Client.port = port;
     }
 
 }

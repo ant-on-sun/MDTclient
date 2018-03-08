@@ -1,8 +1,6 @@
 package com.springsun.mdtclient.view;
 
-import com.springsun.mdtclient.controller.IClient;
-import com.springsun.mdtclient.controller.InetCheck;
-import com.springsun.mdtclient.controller.ShutdownApp;
+import com.springsun.mdtclient.controller.*;
 import com.springsun.mdtclient.controller.client.Client;
 import com.springsun.mdtclient.controller.client.WaitForServerReply;
 import com.springsun.mdtclient.model.DispetchingData;
@@ -21,6 +19,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -99,8 +98,8 @@ public class LoginController {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Client");
                     alert.setHeaderText("Internet is not available");
-                    alert.setContentText("This application requires an Internet connection. " +
-                            "Internet is not available, so the application will be closed");
+                    alert.setContentText("This application requires Internet connection. " +
+                            "\nInternet is not available, so the application will be closed");
                     alert.showAndWait();
                     ShutdownApp.shutdown();
                 }
@@ -181,5 +180,8 @@ public class LoginController {
             //e.printStackTrace();
         }
     }
+
+
+
 
 }

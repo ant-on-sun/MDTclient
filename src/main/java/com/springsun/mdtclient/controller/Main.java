@@ -7,10 +7,12 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -36,6 +38,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        checkServerHostAndPort();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Login.fxml"));
         Parent root = fxmlLoader.load();
         primaryStage.setTitle("MDT client");
@@ -62,6 +65,38 @@ public class Main extends Application {
         });
 
         primaryStage.show();
+    }
+
+    private void checkServerHostAndPort() {
+        if (!CheckFileWithHostAndPort.fileExist(DispetchingData.getPathAsStringToFileServerHostAndPort())){
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/SetServerHostAndPort.fxml"));
+                Parent root = fxmlLoader.load();
+                Stage stage = new Stage();
+                stage.setTitle("Set host and port of the server");
+                stage.setScene(new Scene(root));
+
+                stage.setOnCloseRequest(event -> {
+                    event.consume();
+                    Platform.exit();
+                    System.exit(0);
+                });
+
+                stage.showAndWait();
+            } catch (IOException e) {
+                log.log(Level.WARNING, "Failed to load SetServerHostAndPort : ", e);
+                //e.printStackTrace();
+            }
+        }
+        List<String> stringList = GetHostAndPortFromFile.getAsArrayList();
+        DispetchingData.setServerHost(stringList.get(0));
+        try {
+            DispetchingData.setServerPort(Integer.parseInt(stringList.get(1)));
+        } catch (NumberFormatException e) {
+            log.log(Level.WARNING, "Failed to parse port from file ServerHostAndPort.txt : ", e);
+            //e.printStackTrace();
+        }
+
     }
 
     @Override

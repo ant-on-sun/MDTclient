@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="300.0" prefWidth="500.0" styleClass="background-four" stylesheets="@../styles/StylesForMDTclient.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.springsun.mdtclient.view.SetServerHostAndPortController">
+   <children>
+      <VBox layoutX="200.0" layoutY="50.0" prefHeight="300.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="setHostPortLabel" alignment="CENTER" prefHeight="33.0" prefWidth="500.0" text="Please enter server's host and port">
+               <font>
+                  <Font name="System Bold Italic" size="13.0" />
+               </font>
+            </Label>
+            <Pane prefHeight="60.0" prefWidth="500.0">
+               <children>
+                  <Label fx:id="infoLabel" alignment="CENTER" layoutX="4.0" layoutY="-5.0" prefHeight="69.0" prefWidth="492.0" text="Info">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+               </children>
+            </Pane>
+            <HBox prefHeight="39.0" prefWidth="474.0">
+               <children>
+                  <Pane prefHeight="39.0" prefWidth="40.0" />
+                  <Label fx:id="hostLabel" prefHeight="29.0" prefWidth="76.0" text="Host or IP">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="tfHost" prefHeight="25.0" prefWidth="270.0">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <Pane prefHeight="39.0" prefWidth="118.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="34.0" prefWidth="500.0">
+               <children>
+                  <Pane prefHeight="35.0" prefWidth="33.0" />
+                  <Label fx:id="portLabel" prefHeight="25.0" prefWidth="71.0" text="Port">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="tfPort" prefHeight="25.0" prefWidth="78.0">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <Pane prefHeight="35.0" prefWidth="270.0" />
+               </children>
+            </HBox>
+            <Label fx:id="warningLabel" alignment="CENTER" prefHeight="75.0" prefWidth="500.0" text="Warning" textFill="#d71414">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Pane prefHeight="9.0" prefWidth="500.0" />
+            <Pane prefHeight="48.0" prefWidth="500.0">
+               <children>
+                  <Button fx:id="okButton" defaultButton="true" layoutX="140.0" layoutY="12.0" mnemonicParsing="false" onAction="#okHandler" prefHeight="25.0" prefWidth="78.0" styleClass="button-ok" stylesheets="@../styles/StylesForMDTclient.css" text="OK" />
+                  <Button fx:id="cancelButton" cancelButton="true" layoutX="299.0" layoutY="12.0" mnemonicParsing="false" onAction="#cancelHandler" prefHeight="25.0" prefWidth="78.0" styleClass="button-cancel" stylesheets="@../styles/StylesForMDTclient.css" text="Cancel" />
+               </children>
+            </Pane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

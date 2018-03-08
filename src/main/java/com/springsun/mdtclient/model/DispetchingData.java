@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.io.File;
 import java.util.concurrent.ExecutorService;
 
 public class DispetchingData {
@@ -120,9 +121,44 @@ public class DispetchingData {
         this.result = result;
     }
 
+    public static String getPathAsStringToFileServerHostAndPort() {
+        return pathAsStringToFileServerHostAndPort;
+    }
+
+    public static String getPathDirectoryToFileServerHostAndPort() {
+        return pathDirectoryToFileServerHostAndPort;
+    }
+
+    public static String getFileNameServerHostAndPort() {
+        return fileNameServerHostAndPort;
+    }
+
+    public static String getServerHost() {
+        return serverHost;
+    }
+
+    public static int getServerPort() {
+        return serverPort;
+    }
+
+    public static void setServerHost(String serverHost) {
+        DispetchingData.serverHost = serverHost;
+    }
+
+    public static void setServerPort(int serverPort) {
+        DispetchingData.serverPort = serverPort;
+    }
+
     static private ExecutorService executorService;
     static private IClient client;
     static private IUser user;
+    static private String pathDirectoryToFileServerHostAndPort = System.getProperty("user.home")
+            + File.separator + "MDTclient" + File.separator;
+    static private String fileNameServerHostAndPort = "ServerHostAndPort.txt";
+    static private String pathAsStringToFileServerHostAndPort = pathDirectoryToFileServerHostAndPort
+            + fileNameServerHostAndPort;
+    static private String serverHost = "localhost";
+    static private int serverPort = 8007;
 
     private BooleanProperty connected = new SimpleBooleanProperty(false);
     private BooleanProperty checked = new SimpleBooleanProperty(false);
@@ -132,23 +168,4 @@ public class DispetchingData {
     private StringProperty messageModel = new SimpleStringProperty("");
     private StringProperty result = new SimpleStringProperty("");
 
-//    public DispetchingData(BooleanProperty connected,
-//                           BooleanProperty checked,
-//                           BooleanProperty userCreated,
-//                           BooleanProperty loginAlredyExist,
-//                           StringProperty statusMessageModel,
-//                           StringProperty messageModel,
-//                           ExecutorService executorService,
-//                           IClient client,
-//                           IUser user) {
-//        this.connected = connected;
-//        this.checked = checked;
-//        this.userCreated = userCreated;
-//        this.loginAlredyExist = loginAlredyExist;
-//        this.statusMessageModel = statusMessageModel;
-//        this.messageModel = messageModel;
-//        this.executorService = executorService;
-//        this.client = client;
-//        this.user = user;
-//    }
 }

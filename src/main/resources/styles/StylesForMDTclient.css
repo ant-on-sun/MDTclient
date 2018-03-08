@@ -19,6 +19,29 @@
     -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
 }
 
+.background-four {
+    -fx-background-image: url(/media/img/back-4.jpg);
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
+
+.button-ok {
+    -fx-font-family: sans-serif;
+    -fx-font-size: 9pt;
+    -fx-text-fill: black;
+    -fx-background-color: linear-gradient(DeepSkyBlue, DodgerBlue);
+    -fx-background-radius: 4;
+}
+
+.button-cancel {
+    -fx-font-family: sans-serif;
+    -fx-font-size: 9pt;
+    -fx-text-fill: black;
+    -fx-background-color: linear-gradient(DeepSkyBlue, DodgerBlue);
+    -fx-background-radius: 4;
+}
+
 .button-submit {
     -fx-font-family: sans-serif;
     -fx-font-size: 9pt;
