@@ -103,9 +103,10 @@ public class BusinessHandler extends ChannelInboundHandlerAdapter {
                 if (appPasswordChecked){
                     synchronized (monitor){
                         WaitForServerReply.setServerHasReplied(true);
-                        Platform.runLater(() -> {
-                            dispetchingData.checkedProperty().set(false);
-                        });
+//                        Platform.runLater(() -> {
+//
+//                        });
+                        dispetchingData.checkedProperty().set(false);
                         monitor.notify();
                         log.log(Level.INFO, "Provided user password is not correct.");
                     }
@@ -125,10 +126,10 @@ public class BusinessHandler extends ChannelInboundHandlerAdapter {
                 if (appPasswordChecked){
                     synchronized (monitor){
                         WaitForServerReply.setServerHasReplied(true);
+                        monitor.notify();
                         Platform.runLater(() -> {
                             dispetchingData.resultProperty().set(firstValue);
                         });
-                        monitor.notify();
                         log.log(Level.FINE, "Receiving calculated result.");
                     }
                 }
@@ -137,10 +138,11 @@ public class BusinessHandler extends ChannelInboundHandlerAdapter {
                 if (appPasswordChecked){
                     synchronized (monitor){
                         WaitForServerReply.setServerHasReplied(true);
-                        Platform.runLater(() -> {
-                            dispetchingData.checkedProperty().set(true);
-                            dispetchingData.loginAlredyExistProperty().set(true);
-                        });
+//                        Platform.runLater(() -> {
+//
+//                        });
+                        dispetchingData.checkedProperty().set(true);
+                        dispetchingData.loginAlredyExistProperty().set(true);
                         monitor.notify();
                         log.log(Level.FINE, "Provided user login exist.");
                     }
@@ -150,10 +152,11 @@ public class BusinessHandler extends ChannelInboundHandlerAdapter {
                 if (appPasswordChecked){
                     synchronized (monitor){
                         WaitForServerReply.setServerHasReplied(true);
-                        Platform.runLater(() -> {
-                            dispetchingData.checkedProperty().set(false);
-                            dispetchingData.loginAlredyExistProperty().set(false);
-                        });
+//                        Platform.runLater(() -> {
+//
+//                        });
+                        dispetchingData.checkedProperty().set(false);
+                        dispetchingData.loginAlredyExistProperty().set(false);
                         monitor.notify();
                         log.log(Level.FINE, "Provided user login doesn't exist.");
                     }
@@ -163,9 +166,10 @@ public class BusinessHandler extends ChannelInboundHandlerAdapter {
                 if (appPasswordChecked){
                     synchronized (monitor){
                         WaitForServerReply.setServerHasReplied(true);
-                        Platform.runLater(() -> {
-                            dispetchingData.userCreatedProperty().set(true);
-                        });
+//                        Platform.runLater(() -> {
+//
+//                        });
+                        dispetchingData.userCreatedProperty().set(true);
                         monitor.notify();
                         log.log(Level.FINE, "New user created.");
                     }
@@ -175,9 +179,10 @@ public class BusinessHandler extends ChannelInboundHandlerAdapter {
                 if (appPasswordChecked){
                     synchronized (monitor){
                         WaitForServerReply.setServerHasReplied(true);
-                        Platform.runLater(() -> {
-                            dispetchingData.userCreatedProperty().set(false);
-                        });
+//                        Platform.runLater(() -> {
+//
+//                        });
+                        dispetchingData.userCreatedProperty().set(false);
                         monitor.notify();
                         log.log(Level.WARNING, "New user was not created.");
                     }
@@ -187,9 +192,10 @@ public class BusinessHandler extends ChannelInboundHandlerAdapter {
                 if (appPasswordChecked){
                     synchronized (monitor){
                         WaitForServerReply.setServerHasReplied(true);
-                        Platform.runLater(() -> {
-                            dispetchingData.resultProperty().set(firstValue);
-                        });
+//                        Platform.runLater(() -> {
+//
+//                        });
+                        dispetchingData.resultProperty().set(firstValue);
                         monitor.notify();
                         log.log(Level.WARNING, "Couldn't reset result to zero.");
                     }
@@ -198,12 +204,14 @@ public class BusinessHandler extends ChannelInboundHandlerAdapter {
             case 10:
                 //Data were changed while transmitting to server. Server will do nothing. Try to send data later.
                 //Or: NumberFormatException. Couldn't parse number(s). Ask client to re-send data.
+                //Or: Exception caught in method exceptionCaught() in BuisinessHandler (server). Ask client to re-send data.
                 if (appPasswordChecked){
                     synchronized (monitor){
                         WaitForServerReply.setServerHasReplied(true);
-                        Platform.runLater(() -> {
-                            dispetchingData.messageModelProperty().set(firstValue);
-                        });
+//                        Platform.runLater(() -> {
+//
+//                        });
+                        dispetchingData.messageModelProperty().set(firstValue);
                         monitor.notify();
                         if (errorCounter > maxQuantityOfErrors) {
                             log.log(Level.WARNING, "Too many errors in session. Channel will be closed.");
@@ -226,9 +234,10 @@ public class BusinessHandler extends ChannelInboundHandlerAdapter {
                 if (appPasswordChecked){
                     synchronized (monitor){
                         WaitForServerReply.setServerHasReplied(true);
-                        Platform.runLater(() -> {
-                            dispetchingData.messageModelProperty().set(firstValue);
-                        });
+//                        Platform.runLater(() -> {
+//
+//                        });
+                        dispetchingData.messageModelProperty().set(firstValue);
                         monitor.notify();
                         log.log(Level.WARNING, "Server has received invalid key protocol from client.");
                     }
@@ -264,9 +273,10 @@ public class BusinessHandler extends ChannelInboundHandlerAdapter {
                     log.log(Level.WARNING, "Invalid key protocol was received from server on client.");
                     synchronized (monitor){
                         WaitForServerReply.setServerHasReplied(true);
-                        Platform.runLater(() -> {
-                            dispetchingData.messageModelProperty().set(firstValue);
-                        });
+//                        Platform.runLater(() -> {
+//
+//                        });
+                        dispetchingData.messageModelProperty().set(firstValue);
                         monitor.notify();
                     }
                     if (errorCounter > maxQuantityOfErrors) {
