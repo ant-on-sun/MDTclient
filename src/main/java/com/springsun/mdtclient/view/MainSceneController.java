@@ -47,7 +47,9 @@ public class MainSceneController implements Initializable, MapComponentInitializ
     private Marker marker;
     private DecimalFormat formatter = new DecimalFormat("###.0000000");
     private MapOptions mapOptions;
-    private String pathToMarkerImage = getClass().getResource("/media/img/MapMarker.png").toString();
+    //Method MarkerImageFactory.createMarkerImage() can work only with image file that is not in the .jar
+    private String pathToMarkerImage = DispetchingData.getPathAsStringToDestinationDirectory()
+            + DispetchingData.getMarkerImgFileName();
 
     @FXML
     private Label loginLabel;
@@ -193,10 +195,13 @@ public class MainSceneController implements Initializable, MapComponentInitializ
 
     private void configureMarker(){
         pathToMarkerImage = "file:///" + GetOsIndependentPathToFile.getPath(pathToMarkerImage);
-        pathToMarkerImage.replaceAll(" ", "%20");
+        pathToMarkerImage = pathToMarkerImage.replace(" ", "%20");
+        pathToMarkerImage = pathToMarkerImage.replace("\\", "/");
+        log.log(Level.FINE, pathToMarkerImage);
         pathToMarkerImage = MarkerImageFactory.createMarkerImage(pathToMarkerImage, "png");
         pathToMarkerImage = pathToMarkerImage.replace("(", "");
         pathToMarkerImage = pathToMarkerImage.replace(")", "");
+        log.log(Level.FINE, pathToMarkerImage);
     }
 
 }

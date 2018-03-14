@@ -149,6 +149,21 @@ public class DispetchingData {
         DispetchingData.serverPort = serverPort;
     }
 
+    public static String getPathAsStringToSourceMarkerImgFile() {
+        return pathAsStringToSourceMarkerImgFile;
+    }
+
+    public static String getPathAsStringToDestinationDirectory() {
+        return pathAsStringToDestinationDirectory;
+    }
+
+    public static String getMarkerImgFileName() {
+        return markerImgFileName;
+    }
+    public static String getAbsolutePathToFileInJar() {
+        return absolutePathToFileInJar;
+    }
+
     static private ExecutorService executorService;
     static private IClient client;
     static private IUser user;
@@ -159,6 +174,12 @@ public class DispetchingData {
             + fileNameServerHostAndPort;
     static private String serverHost = "localhost";
     static private int serverPort = 8007;
+    static private String markerImgFileName = "MapMarker.png";
+    static private String absolutePathToFileInJar = "/media/img/" + markerImgFileName;
+    static private String pathAsStringToSourceMarkerImgFile = DispetchingData.class
+            .getResource(absolutePathToFileInJar).toString();
+    static private String pathAsStringToDestinationDirectory = System.getProperty("user.dir") + File.separator
+            + "media" + File.separator + "img" + File.separator;
 
     private BooleanProperty connected = new SimpleBooleanProperty(false);
     private BooleanProperty checked = new SimpleBooleanProperty(false);

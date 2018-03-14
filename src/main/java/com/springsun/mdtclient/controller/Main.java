@@ -39,6 +39,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         checkServerHostAndPort();
+        CopyResources.copyFile(DispetchingData.getPathAsStringToSourceMarkerImgFile(),
+                DispetchingData.getPathAsStringToDestinationDirectory());
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Login.fxml"));
         Parent root = fxmlLoader.load();
         primaryStage.setTitle("MDT client");
